@@ -4,38 +4,48 @@ import React, { useEffect, useState } from "react";
 const Home = () => {
 	const [active, setActive] = useState('')
 	const [loop, setLoop] = useState(false)
-	let [position, setPosition] = useState(0) 
-	const lights = [{color:'red'},{color:'yellow'},{color:'green'}]
+	const [lights, setLights] = useState(['red','yellow','green'])
 
-	useEffect(()=>{
-		const color = ['red','yellow','green']
-		let ColorInterval = setInterval((prev)=>{
-			// setActive(color[position])
-			// setPosition[prev++]
-			if(position <= color.length-1){
-				console.log(color[position])
-				console.log(position)
-				setActive(color[position])
-				setPosition(position++)
+	function setColor(){
+		let position = 0;
+		let interval = setInterval((prev)=>{
+			if(position <= lights.length-1){
+				setActive(prev=>{
+					return lights[position]
+				})
+				return position++
 			}else{
 				console.log("es mayor")
-				console.log(position)
-				setPosition(0)
+				position = 0
+				return
 			}
 		},1000)
-	},[loop])
+		setLoop(()=>{
+			return interval
+		})
+	}
+
+	const handleLight = () => {
+		if(loop){
+			clearInterval(loop)
+			setLoop(false)
+			setActive("")
+		}else{
+			setColor()
+		}
+	}
 
 	
 	return (
 		<div className="container">
 			<div className="support-trafic-light"></div>
 			<div className="light-container">
-				{lights.map((light) => {
-					const {color} = light;
-					return <div onClick={()=>{setActive(light.color)}} className={`light ${color} my-2 ${active===color ? 'active' : ''}`}></div>	
+				{lights.map((light, i) => {
+					return <div key={i} onClick={()=>{setActive(light)}} className={`light ${light} my-2 ${active===light ? 'active' : ''}`}></div>	
 				})}
 			</div>
-			<button className="btn btn-primary mt-2" onClick={()=>{setLoop(!loop)}}>Activar por tiempo</button>
+			<button className="btn btn-primary mt-2" onClick={handleLight}>Activar por tiempo</button>
+			<button className="btn btn-primary mt-2" onClick={()=>setLights([...lights,'purple'])}>Agregar color Purpura al Semáforo</button>
 		</div>
 	);
 };

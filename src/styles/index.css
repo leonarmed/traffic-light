@@ -14,7 +14,7 @@
 .light-container{
     background-color: black;
     width: 100px;
-    height: 185px;
+    height: 100%;
     border-radius: 10px;
 }
 
@@ -48,4 +48,12 @@
 
 .light.green.active{
     box-shadow: 0px 0px 35px 10px #088001;
+}
+
+.light.purple{
+    background-color: purple;
+}
+
+.light.purple.active{
+    box-shadow: 0px 0px 35px 10px #d334c5;
 }
